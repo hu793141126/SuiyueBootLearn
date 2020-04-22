@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.demo.dao.log.OperLogMapper">
+  <resultMap id="BaseResultMap" type="com.java.demo.model.log.OperLog">
+    <id column="oper_log_id" jdbcType="INTEGER" property="operLogId" />
+    <result column="log_time" jdbcType="TIMESTAMP" property="logTime" />
+    <result column="log_oper" jdbcType="VARCHAR" property="logOper" />
+    <result column="log_status" jdbcType="BIT" property="logStatus" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
+    <result column="log_location" jdbcType="VARCHAR" property="logLocation" />
+    <result column="log_device" jdbcType="VARCHAR" property="logDevice" />
+    <result column="log_code" jdbcType="INTEGER" property="logCode" />
+    <result column="spend_time" jdbcType="INTEGER" property="spendTime" />
+    <result column="log_desc" jdbcType="VARCHAR" property="logDesc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    oper_log_id, log_time, log_oper, log_status, user_name, user_ip, log_location, log_device, 
+    log_code, spend_time, log_desc
+  </sql>
+
+  <select id="selectAll"  resultMap="BaseResultMap">
+    select * from operlog order by logtime desc
+  </select>
+  <select id="selectByPrimaryIds" parameterType="java.util.List" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from operlog
+    where id  in
+    <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+    order by logtime desc
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from oper_log
+    where oper_log_id = #{operLogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from oper_log
+    where oper_log_id = #{operLogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.test.base.bean.OperLog">
+    insert into oper_log (oper_log_id, log_time, log_oper, 
+      log_status, user_name, user_ip, 
+      log_location, log_device, log_code, 
+      spend_time, log_desc)
+    values (#{operLogId,jdbcType=INTEGER}, #{logTime,jdbcType=TIMESTAMP}, #{logOper,jdbcType=VARCHAR}, 
+      #{logStatus,jdbcType=BIT}, #{userName,jdbcType=VARCHAR}, #{userIp,jdbcType=VARCHAR}, 
+      #{logLocation,jdbcType=VARCHAR}, #{logDevice,jdbcType=VARCHAR}, #{logCode,jdbcType=INTEGER}, 
+      #{spendTime,jdbcType=INTEGER}, #{logDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.base.bean.OperLog">
+    insert into oper_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="operLogId != null">
+        oper_log_id,
+      </if>
+      <if test="logTime != null">
+        log_time,
+      </if>
+      <if test="logOper != null">
+        log_oper,
+      </if>
+      <if test="logStatus != null">
+        log_status,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userIp != null">
+        user_ip,
+      </if>
+      <if test="logLocation != null">
+        log_location,
+      </if>
+      <if test="logDevice != null">
+        log_device,
+      </if>
+      <if test="logCode != null">
+        log_code,
+      </if>
+      <if test="spendTime != null">
+        spend_time,
+      </if>
+      <if test="logDesc != null">
+        log_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="operLogId != null">
+        #{operLogId,jdbcType=INTEGER},
+      </if>
+      <if test="logTime != null">
+        #{logTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logOper != null">
+        #{logOper,jdbcType=VARCHAR},
+      </if>
+      <if test="logStatus != null">
+        #{logStatus,jdbcType=BIT},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userIp != null">
+        #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="logLocation != null">
+        #{logLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="logDevice != null">
+        #{logDevice,jdbcType=VARCHAR},
+      </if>
+      <if test="logCode != null">
+        #{logCode,jdbcType=INTEGER},
+      </if>
+      <if test="spendTime != null">
+        #{spendTime,jdbcType=INTEGER},
+      </if>
+      <if test="logDesc != null">
+        #{logDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.base.bean.OperLog">
+    update oper_log
+    <set>
+      <if test="logTime != null">
+        log_time = #{logTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logOper != null">
+        log_oper = #{logOper,jdbcType=VARCHAR},
+      </if>
+      <if test="logStatus != null">
+        log_status = #{logStatus,jdbcType=BIT},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userIp != null">
+        user_ip = #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="logLocation != null">
+        log_location = #{logLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="logDevice != null">
+        log_device = #{logDevice,jdbcType=VARCHAR},
+      </if>
+      <if test="logCode != null">
+        log_code = #{logCode,jdbcType=INTEGER},
+      </if>
+      <if test="spendTime != null">
+        spend_time = #{spendTime,jdbcType=INTEGER},
+      </if>
+      <if test="logDesc != null">
+        log_desc = #{logDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where oper_log_id = #{operLogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.base.bean.OperLog">
+    update oper_log
+    set log_time = #{logTime,jdbcType=TIMESTAMP},
+      log_oper = #{logOper,jdbcType=VARCHAR},
+      log_status = #{logStatus,jdbcType=BIT},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_ip = #{userIp,jdbcType=VARCHAR},
+      log_location = #{logLocation,jdbcType=VARCHAR},
+      log_device = #{logDevice,jdbcType=VARCHAR},
+      log_code = #{logCode,jdbcType=INTEGER},
+      spend_time = #{spendTime,jdbcType=INTEGER},
+      log_desc = #{logDesc,jdbcType=VARCHAR}
+    where oper_log_id = #{operLogId,jdbcType=INTEGER}
+  </update>
+</mapper>

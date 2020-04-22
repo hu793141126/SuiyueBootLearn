@@ -1,0 +1,2 @@
+1.aop切点路径需要根据具体的包名进行配置-aop目录下的aspect配置
+2.骨架的mapper文件存放在resource目录下的mapper/base里
