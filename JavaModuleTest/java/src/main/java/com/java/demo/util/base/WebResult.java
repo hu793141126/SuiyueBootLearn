@@ -1,7 +1,7 @@
 package com.java.demo.util.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.test.base.util.SpringUtil;
+import com.java.demo.util.SpringUtil;
 import lombok.Data;
 
 /**

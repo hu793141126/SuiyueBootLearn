@@ -7,6 +7,7 @@ import com.java.demo.service.log.impl.OperLogServiceImpl;
 import com.java.demo.util.AddressUtils;
 import com.java.demo.util.SpringUtil;
 import com.java.demo.util.aop.ControllerLog;
+import com.java.demo.util.constants.enums.ModuleEnums;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -78,7 +79,6 @@ public class ControllerLogAspect {
     }
 
     private void saveOperationLog(WebResult webResult, HttpServletRequest request, Method method) {
-        log.info("");
         ControllerLog logs=method.getAnnotation(ControllerLog.class);
         OperLogService operLogService= SpringUtil.getBean(OperLogServiceImpl.class);
         OperLog operLog=new OperLog();
@@ -99,14 +99,11 @@ public class ControllerLogAspect {
         operLog.setUserIp(logigip);
         operLog.setLogLocation(AddressUtils.getAddress(logigip));
         operLog.setLogTime(new Date());
-        Module module = logs.module();
+        ModuleEnums moduleEnums = logs.module();
         String action=SpringUtil.getMessage(logs.logDesc());
         operLog.setLogOper(action);
-        int result= CodeConstants.THE_RESPOND_IS_FIELD;
-        if (CodeConstants.THE_RESPOND_IS_SUCCESS.equals(webResult.getCode())){
-            result=CodeConstants.THE_RESPOND_IS_SUCCESS;
-        }
-        operLog.setLogStatus(result);
+        String message = SpringUtil.getMessage(webResult.getCode().toString());
+        operLog.setLogStatus(message);
         operLog.setLogCode(webResult.getCode());
         operLog.setLogDesc(webResult.getLogs());
         operLogService.insertOperlog(operLog);

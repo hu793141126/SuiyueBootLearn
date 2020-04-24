@@ -1,7 +1,6 @@
 package com.java.demo.util.aop;
 
-import com.test.base.constants.enums.Module;
-
+import com.java.demo.util.constants.enums.ModuleEnums;
 import java.lang.annotation.*;
 
 /**
@@ -14,6 +13,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ControllerLog {
-    Module module() ;
+    ModuleEnums module() ;
     String logDesc() default "";
 }

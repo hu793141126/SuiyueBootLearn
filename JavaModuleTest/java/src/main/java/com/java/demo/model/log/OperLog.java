@@ -25,7 +25,7 @@ public class OperLog extends BaseModel {
     /**
      * 操作状态
      */
-    private Integer logStatus;
+    private String logStatus;
     /**
      * 用户名
      */
