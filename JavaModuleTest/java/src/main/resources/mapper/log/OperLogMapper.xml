@@ -11,7 +11,7 @@
     <result column="log_location" jdbcType="VARCHAR" property="logLocation" />
     <result column="log_device" jdbcType="VARCHAR" property="logDevice" />
     <result column="log_code" jdbcType="INTEGER" property="logCode" />
-    <result column="spend_time" jdbcType="INTEGER" property="spendTime" />
+    <result column="spend_time" jdbcType="DOUBLE" property="spendTime" />
     <result column="log_desc" jdbcType="VARCHAR" property="logDesc" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -20,12 +20,12 @@
   </sql>
 
   <select id="selectAll"  resultMap="BaseResultMap">
-    select * from operlog order by logtime desc
+    select * from oper_log order by log_time desc
   </select>
   <select id="selectByPrimaryIds" parameterType="java.util.List" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from operlog
+    from oper_log
     where id  in
     <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
       #{id}
@@ -43,17 +43,17 @@
     delete from oper_log
     where oper_log_id = #{operLogId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.test.base.bean.OperLog">
+  <insert id="insert" parameterType="com.java.demo.model.log.OperLog">
     insert into oper_log (oper_log_id, log_time, log_oper, 
       log_status, user_name, user_ip, 
       log_location, log_device, log_code, 
       spend_time, log_desc)
-    values (#{operLogId,jdbcType=INTEGER}, #{logTime,jdbcType=TIMESTAMP}, #{logOper,jdbcType=VARCHAR}, 
+    values (#{operLogId,jdbcType=INTEGER}, #{logTime,jdbcType=TIMESTAMP}, #{logOper,jdbcType=VARCHAR},
       #{logStatus,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userIp,jdbcType=VARCHAR},
       #{logLocation,jdbcType=VARCHAR}, #{logDevice,jdbcType=VARCHAR}, #{logCode,jdbcType=INTEGER}, 
-      #{spendTime,jdbcType=INTEGER}, #{logDesc,jdbcType=VARCHAR})
+      #{spendTime,jdbcType=DOUBLE}, #{logDesc,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.test.base.bean.OperLog">
+  <insert id="insertSelective" parameterType="com.java.demo.model.log.OperLog">
     insert into oper_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="operLogId != null">
@@ -119,14 +119,14 @@
         #{logCode,jdbcType=INTEGER},
       </if>
       <if test="spendTime != null">
-        #{spendTime,jdbcType=INTEGER},
+        #{spendTime,jdbcType=DOUBLE},
       </if>
       <if test="logDesc != null">
         #{logDesc,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.test.base.bean.OperLog">
+  <update id="updateByPrimaryKeySelective" parameterType="com.java.demo.model.log.OperLog">
     update oper_log
     <set>
       <if test="logTime != null">
@@ -154,7 +154,7 @@
         log_code = #{logCode,jdbcType=INTEGER},
       </if>
       <if test="spendTime != null">
-        spend_time = #{spendTime,jdbcType=INTEGER},
+        spend_time = #{spendTime,jdbcType=DOUBLE},
       </if>
       <if test="logDesc != null">
         log_desc = #{logDesc,jdbcType=VARCHAR},
@@ -162,7 +162,7 @@
     </set>
     where oper_log_id = #{operLogId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.test.base.bean.OperLog">
+  <update id="updateByPrimaryKey" parameterType="com.java.demo.model.log.OperLog">
     update oper_log
     set log_time = #{logTime,jdbcType=TIMESTAMP},
       log_oper = #{logOper,jdbcType=VARCHAR},
@@ -172,7 +172,7 @@
       log_location = #{logLocation,jdbcType=VARCHAR},
       log_device = #{logDevice,jdbcType=VARCHAR},
       log_code = #{logCode,jdbcType=INTEGER},
-      spend_time = #{spendTime,jdbcType=INTEGER},
+      spend_time = #{spendTime,jdbcType=DOUBLE},
       log_desc = #{logDesc,jdbcType=VARCHAR}
     where oper_log_id = #{operLogId,jdbcType=INTEGER}
   </update>

@@ -13,7 +13,11 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
-
+    <scm>
+        <connection>scm:git:http://172.23.1.22/aas-situation/situ_java.git</connection>
+        <developerConnection>scm:git:http://172.23.1.22/aas-situation/situ_java.git</developerConnection>
+        <url>scm:git:http://172.23.1.22/aas-situation/situ_java.git</url>
+    </scm>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -240,11 +244,263 @@
         </dependency>
     </dependencies>
 
+    <!--关闭Doclint文档格式验证-->
+    <profiles>
+        <profile>
+            <id>doclint-java8-disable</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <javadoc.opts>-Xdoclint:none</javadoc.opts>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
+            <!--<plugin>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+            <!--<groupId>org.mybatis.generator</groupId>-->
+            <!--<artifactId>mybatis-generator-maven-plugin</artifactId>-->
+            <!--<version>1.3.5</version>-->
+            <!--<configuration>-->
+            <!--<configurationFile>src/test/resources/generatorConfig.xml</configurationFile>-->
+            <!--<verbose>true</verbose>-->
+            <!--<overwrite>true</overwrite>-->
+            <!--</configuration>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>Generate MyBatis Artifacts</id>-->
+            <!--<goals>-->
+            <!--<goal>generate</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--<dependencies>-->
+            <!--<dependency>-->
+            <!--<groupId>org.mybatis.generator</groupId>-->
+            <!--<artifactId>mybatis-generator-core</artifactId>-->
+            <!--<version>1.3.5</version>-->
+            <!--</dependency>-->
+            <!--</dependencies>-->
+            <!--</plugin>-->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--maven 打包文件名加序列号或者时间的插件-->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <format>{1}</format>
+                    <items>
+                        <item>timestamp</item>
+                        <item>scmVersion</item>
+                    </items>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                    <timestampFormat>{0,date,yyyy-MM-dd-HH-mm-ss}</timestampFormat>
+                </configuration>
+            </plugin>
+
+            <!--<plugin>-->
+                <!--&lt;!&ndash;appassembler-maven-plugin可以自动生成跨平台的启动脚本，省去了手工写脚本的麻烦，而且还可以生成jsw的后台运行程序。&ndash;&gt;-->
+                <!--&lt;!&ndash;该插件十分强大， 既可以生成简单脚本启动  包括.bat .sh-->
+                    <!--也可以打包成服务  即service *** start|stop|status-->
+                <!--&ndash;&gt;-->
+                <!--&lt;!&ndash; 插件版 .sh  .bat &ndash;&gt;-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>appassembler-maven-plugin</artifactId>-->
+                <!--<version>2.0.0</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>make-assembly</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>assemble</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+                <!--<configuration>-->
+                    <!--<configurationDirectory>conf</configurationDirectory>-->
+                    <!--<copyConfigurationDirectory>true</copyConfigurationDirectory>-->
+                    <!--<configurationSourceDirectory>src/main/resources</configurationSourceDirectory>-->
+                    <!--<logsDirectory>logs</logsDirectory>-->
+                    <!--<tempDirectory>tmp</tempDirectory>-->
+                    <!--<repositoryName>lib</repositoryName>-->
+                    <!--<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>-->
+                    <!--<repositoryLayout>flat</repositoryLayout>-->
+                    <!--<useWildcardClassPath>true</useWildcardClassPath>-->
+                    <!--<binFileExtensions>-->
+                        <!--<unix>.sh</unix>-->
+                    <!--</binFileExtensions>-->
+                    <!--<platforms>-->
+                        <!--<platform>windows</platform>-->
+                        <!--<platform>unix</platform>-->
+                    <!--</platforms>-->
+                    <!--<programs>-->
+                        <!--<program>-->
+                            <!--<mainClass>com.java.demo.DemoApplication</mainClass>-->
+                            <!--<name>start</name>-->
+                            <!--<jvmSettings>-->
+                                <!--<extraArguments>-->
+                                    <!--<extraArgument>-server</extraArgument>-->
+                                    <!--<extraArgument>-Xmx1G</extraArgument>-->
+                                    <!--<extraArgument>-Xms1G</extraArgument>-->
+                                    <!--&lt;!&ndash; 辅助输出一些详细的GC信息 &ndash;&gt;-->
+                                    <!--<extraArgument>-verbose:gc</extraArgument>-->
+                                    <!--&lt;!&ndash; 输出GC的详细信息 &ndash;&gt;-->
+                                    <!--<extraArgument>-XX:+PrintGCDetails</extraArgument>-->
+                                    <!--&lt;!&ndash; 输出GC造成应用程序暂停的时间 &ndash;&gt;-->
+                                    <!--<extraArgument>-XX:+PrintGCApplicationStoppedTime</extraArgument>-->
+                                    <!--&lt;!&ndash; 输出GC发生的时间信息 &ndash;&gt;-->
+                                    <!--<extraArgument>-XX:+PrintGCDateStamps</extraArgument>-->
+                                    <!--&lt;!&ndash; 在GC前后输出堆中各个区域堆大小 &ndash;&gt;-->
+                                    <!--<extraArgument>-XX:+PrintHeapAtGC</extraArgument>-->
+                                    <!--&lt;!&ndash; 将GC信息输出到单独到文件中 &ndash;&gt;-->
+                                    <!--<extraArgument>-Xloggc:../logs/jvm_gc.info</extraArgument>-->
+                                    <!--&lt;!&ndash; 内存耗尽时记录下内存快照 &ndash;&gt;-->
+                                    <!--<extraArgument>-XX:+HeapDumpOnOutOfMemoryError</extraArgument>-->
+                                    <!--&lt;!&ndash; 内存快照文件的路径 &ndash;&gt;-->
+                                    <!--<extraArgument>-XX:HeapDumpPath=../logs</extraArgument>-->
+                                <!--</extraArguments>-->
+                            <!--</jvmSettings>-->
+                        <!--</program>-->
+                    <!--</programs>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+
+            <plugin>
+            <!--打包服务的  暂时未测试成功-->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                     <!-- 打包的jar，以及maven依赖的jar存放目录 -->
+                    <repositoryName>lib</repositoryName>
+                    <!-- 可执行脚本的存放目录 -->
+                    <binFolder>bin</binFolder>
+                    <!-- 配置文件的存放目录 -->
+                    <configurationDirectory>conf</configurationDirectory>
+                    <!-- 拷贝配置文件到上面的目录中 -->
+                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                    <!-- 从哪里拷贝配置文件 (默认src/main/config) -->
+                    <configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
+                    <!-- lib目录中jar的存放规则，默认是${groupId}/${artifactId}的目录格式，flat表示直接把jar放到lib目录 -->
+                    <repositoryLayout>flat</repositoryLayout>
+                    <encoding>UTF-8</encoding>
+                    <logsDirectory>logs</logsDirectory>
+                    <tempDirectory>tmp</tempDirectory>
+                    <daemons>
+                        <daemon>
+                            <mainClass>com.java.demo.DemoApplication</mainClass>
+                            <platforms>
+                                <platform>jsw</platform>
+                            </platforms>
+                            <generatorConfigurations>
+                                <generatorConfiguration>
+                                    <generator>jsw</generator>
+                                    <includes>
+                                        <include>linux-x86-32</include>
+                                        <include>linux-x86-64</include>
+                                        <include>windows-x86-32</include>
+                                        <include>windows-x86-64</include>
+                                    </includes>
+                                    <configuration>
+                                        <property>
+                                            <name>configuration.directory.in.classpath.first</name>
+                                            <value>conf</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.ping.timeout</name>
+                                            <value>120</value>
+                                        </property>
+                                        <property>
+                                            <name>set.default.REPO_DIR</name>
+                                            <value>lib</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.logfile</name>
+                                            <value>logs/wrapper.log</value>
+                                        </property>
+                                    </configuration>
+                                </generatorConfiguration>
+                            </generatorConfigurations>
+                            <jvmSettings>
+                                <!-- jvm参数 -->
+                                <extraArguments>
+                                    <extraArgument>-server</extraArgument>
+                                    <extraArgument>-Xmx1G</extraArgument>
+                                    <extraArgument>-Xms1G</extraArgument>
+                                    <!-- 辅助输出一些详细的GC信息 -->
+                                    <extraArgument>-verbose:gc</extraArgument>
+                                    <!-- 输出GC的详细信息 -->
+                                    <extraArgument>-XX:+PrintGCDetails</extraArgument>
+                                    <!-- 输出GC造成应用程序暂停的时间 -->
+                                    <extraArgument>-XX:+PrintGCApplicationStoppedTime</extraArgument>
+                                    <!-- 输出GC发生的时间信息 -->
+                                    <extraArgument>-XX:+PrintGCDateStamps</extraArgument>
+                                    <!-- 在GC前后输出堆中各个区域堆大小 -->
+                                    <extraArgument>-XX:+PrintHeapAtGC</extraArgument>
+                                    <!-- 将GC信息输出到单独到文件中 -->
+                                    <extraArgument>-Xloggc:../logs/jvm_gc.info</extraArgument>
+                                    <!-- 内存耗尽时记录下内存快照 -->
+                                    <extraArgument>-XX:+HeapDumpOnOutOfMemoryError</extraArgument>
+                                    <!-- 内存快照文件的路径 -->
+                                    <extraArgument>-XX:HeapDumpPath=../logs</extraArgument>
+                                </extraArguments>
+                            </jvmSettings>
+                        </daemon>
+                    </daemons>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                    <additionalOptions>${javadoc.opts}</additionalOptions>
+                </configuration>
             </plugin>
         </plugins>
     </build>

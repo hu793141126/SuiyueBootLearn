@@ -27,7 +27,6 @@ public class SpringUtil implements ApplicationContextAware {
         checkApplicationContext();
         String value="";
         try {
-            System.out.println(params);
             value=messageSource.getMessage(key,params, Locale.CHINA);
         }catch (Exception e){
             log.error("获取国际化参数时异常",e);

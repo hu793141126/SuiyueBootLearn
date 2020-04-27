@@ -49,7 +49,7 @@ public class OperLog extends BaseModel {
     /**
      * 花费时间
      */
-    private Integer spendTime;
+    private Double spendTime;
     /**
      * 日志描述
      */

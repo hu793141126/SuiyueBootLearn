@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Setter;
 
 /**
- * 模块枚举
+ * 模块枚举--用枚举方便  但是对国际化支持不太友好
  */
 @AllArgsConstructor
 public enum CodeEnums {
